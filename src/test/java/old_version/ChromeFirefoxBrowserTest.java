@@ -1,27 +1,25 @@
-package new_version;
+package old_version;
 
-import browser.*;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import browser.BaseTest;
+import org.openqa.selenium.JavascriptException;
+import org.testng.annotations.*;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Selenide.refresh;
-import static com.codeborne.selenide.Selenide.sleep;
-import static com.codeborne.selenide.WebDriverRunner.getSelenideDriver;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static core.TestStepLogger.logStep;
 
-public class BrowserTest extends BaseTest {
-    String mainUrl = "https://bvcm2.nextmp.net/";
+public class ChromeFirefoxBrowserTest extends BaseTest {
+    String mainUrl = "https://www.bestvaluecopy.com/";
 
-    String bookletsLink="";
+    String bookingLnkXpath ="//a[@href='/site/booklet-printing']";
+    String productNameH1Xpath ="//h1";
+
 
     @DataProvider(name = "browsers")
     public static Object[][] primeNumbers() {
-        return new Object[][]{{"chrome"}, {"firefox"}/**/};
+        return new Object[][]{{"chrome"}/*, {"firefox"}*/};
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -41,16 +39,17 @@ public class BrowserTest extends BaseTest {
     public void detailsPageLoadingTest(String browserName) {
         test_name = "Open product details page";
         open_page(mainUrl, browserName);
-        link.setXpath("//*[@id='ui-id-3']").chkVisible().click();//click on Booklets link
-        label.setXpath("//*[@data-ui-id='page-title-wrapper']").chkVisible().chkText("BOOKLET PRINTING");//check that we on the required page
+        link.setXpath(bookingLnkXpath).chkVisible().click();//click on Booklets link
+        label.setXpath(productNameH1Xpath).chkVisible().chkText("BOOKLET PRINTING");//check that we on the required page
     }
 
     @Test(dataProvider = "browsers")
     public void shoppingCartPageLoadingTest(String browserName) {
         test_name = "Open shopping cart page";
         open_page(mainUrl, browserName);
-        link.setXpath("//*[@id='ui-id-3']").chkVisible().click();//click on Booklets link
-        label.setXpath("//*[@data-ui-id='page-title-wrapper']").chkVisible();//check that we on the required page
+        link.setXpath(bookingLnkXpath).chkVisible().click();//click on Booklets link
+        label.setXpath(productNameH1Xpath).chkVisible();//check that we on the required page
+
         input.setCSS("#options_1022_text").chkVisible().chkEnabled().setValue("1");
         input.setCSS("#options_1023_text").chkVisible().chkEnabled().setValue("1");
         input.setCSS("#options_1024_text").chkVisible().chkEnabled().setValue("UserNAme");
@@ -61,15 +60,13 @@ public class BrowserTest extends BaseTest {
         link.setCSS("#shopping-cart-table .product-item-details>.product-item-name ").chkVisible().chkText("BOOKLET PRINTING");
     }
 
+    @Ignore
     @Test(dataProvider = "browsers")
     public void checkoutPageLoadingTest(String browserName) {
-//        File f = new File("../../../files/test_source.pdf");
-//        System.out.println(f.getName());
-
         test_name = "Open shopping cart page";
         open_page(mainUrl, browserName);
-        link.setXpath("//*[@id='ui-id-3']").chkVisible().click();//click on Booklets link
-        label.setXpath("//*[@data-ui-id='page-title-wrapper']").chkVisible();//check that we on the required page
+        link.setXpath(bookingLnkXpath).chkVisible().click();//click on Booklets link
+        label.setXpath(productNameH1Xpath).chkVisible();//check that we on the required page
         input.setCSS("#options_1022_text").chkVisible().chkEnabled().setValue("1");
         input.setCSS("#options_1023_text").chkVisible().chkEnabled().setValue("1");
         input.setCSS("#options_1024_text").chkVisible().chkEnabled().setValue("UserNAme");
@@ -79,10 +76,7 @@ public class BrowserTest extends BaseTest {
         label.setXpath("//*[@id='shopping-cart-table']").chkVisible();
         link.setCSS("#shopping-cart-table .product-item-details>.product-item-name ").chkVisible().chkText("BOOKLET PRINTING");
 
-        sleep(2000);
-        getSelenideDriver().executeJavaScript("document.querySelector('input.dz-hidden-input').style.visibility='visible'");
-        getSelenideDriver().executeJavaScript("document.querySelector('input.dz-hidden-input').style.width='1px'");
-        getSelenideDriver().executeJavaScript("document.querySelector('input.dz-hidden-input').style.height='1px'");
+        setVisibility("input.dz-hidden-input");
         input.setCSS("input.dz-hidden-input").chkVisible().chkEnabled().uploadFile(new File("files/test_source.pdf"));
         button.setXpath("//*[@data-role='proceed-to-checkout']").chkVisible().click();
 
@@ -94,14 +88,19 @@ public class BrowserTest extends BaseTest {
         button.setXpath("//*[@data-role='proceed-to-checkout']").chkVisible().chkEnabled().click();
 
         label.setCSS("#shipping").chkVisible();
-
     }
 
     @AfterMethod(alwaysRun = true)
     public void down() {
-        waitPageLoading();
+        try {
+            waitPageLoading();
+        }catch (JavascriptException e){
+            System.out.println("sad(");
+        }
+        
         end = getTime();
         System.out.println(printReport(end, start, test_name));
-        getWebDriver().close();
+        driver.close();
+//        getWebDriver().close();
     }
 }

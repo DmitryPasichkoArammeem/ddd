@@ -18,19 +18,18 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.safari.SafariDriverInfo;
-import org.openqa.selenium.safari.SafariDriverService;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.clearBrowserCache;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.WebDriverRunner.*;
 
 public abstract class BaseTest {
 
     public static final TestProperties tstProp = ConfigFactory.create(TestProperties.class);
+    public static WebDriver driver ;
 
     protected Link link = new Link();
     protected Label label = new Label();
@@ -38,18 +37,20 @@ public abstract class BaseTest {
     protected RadioButton radioButton = new RadioButton();
     protected Button button = new Button();
 
-    public static String browser = "chrome";
     public long start = 0;
     public long end = 0;
     public String test_name;
 
 
-    public static void setBrowser(String newBrowser) {
-        browser = newBrowser;
-    }
-
     public static String printReport(Long start, Long end, String description) {
         return description + " - " + convertToSeconds(end - start) + " sec";
+    }
+
+    public static void setVisibility(String cssSelector) {
+        sleep(2000);
+        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.visibility='visible'");
+        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.width='1px'");
+        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.height='1px'");
     }
 
     public static long getTime() {
@@ -75,7 +76,6 @@ public abstract class BaseTest {
     }
 
     public WebDriver getDriver(String browser) {
-        WebDriver driver;
         switch (browser) {
             case "chrome":
                 ChromeDriverManager.chromedriver().version("85.0.4183.83").setup();
@@ -92,7 +92,7 @@ public abstract class BaseTest {
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "explorer":
-                InternetExplorerDriverManager.iedriver().version("3.8.0").setup();
+                InternetExplorerDriverManager.iedriver().version("4.0").setup();
                 driver = new InternetExplorerDriver();
                 break;
             case "safari":
@@ -103,6 +103,7 @@ public abstract class BaseTest {
                 throw new RuntimeException("Select incorrect browser type");
         }
         driver.manage().window().setSize(new Dimension(tstProp.winWidth(), tstProp.winHeight()));
+//        driver.manage().window().setPosition(new Point(0,0));
         driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
 //        driver.manage().timeouts().setScriptTimeout(15, TimeUnit.SECONDS);
         return driver;
