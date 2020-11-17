@@ -1,4 +1,4 @@
-package browser;
+package mobile;
 
 import com.codeborne.selenide.SelenideDriver;
 
@@ -7,50 +7,45 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class Link extends Element{
-    public Link(SelenideDriver driver) {
-
+public class Label extends Element {
+    public Label(SelenideDriver driver) {
         super(driver);
     }
-    public Link() {
 
+    public Label() {
         super();
     }
 
 
-    public Link chkEnabled() {
+    public Label chkEnabled() {
         element.shouldBe(visible);
         return this;
     }
 
-    public Link click() {
+    public Label click() {
         element.click();
         return this;
     }
 
-    public Link setXpath(String xpath) {
+    public Label setXpath(String xpath) {
         this.xpath = xpath;
         this.element = $x(this.xpath);
         return this;
     }
 
-    public Link setCSS(String xpath) {
+    public Label setCSS(String xpath) {
         this.xpath = xpath;
         this.element = $(this.xpath);
         return this;
     }
 
-    public Link chkVisible() {
+    public Label chkVisible() {
         element.shouldBe(visible);
         return this;
     }
 
-    public boolean isVisible() {
-        return element.isDisplayed();
-    }
-
-    public Link chkText(String text) {
-        element.shouldHave(text(text));
+    public Label chkText(String expectedText) {
+        element.shouldHave(text(expectedText));
         return this;
     }
 }

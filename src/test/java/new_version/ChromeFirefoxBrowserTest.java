@@ -61,7 +61,6 @@ public class ChromeFirefoxBrowserTest extends BaseTest {
         link.setCSS("#shopping-cart-table .product-item-details>.product-item-name ").chkVisible().chkText("BOOKLET PRINTING");
     }
 
-    @Ignore
     @Test(dataProvider = "browsers")
     public void checkoutPageLoadingTest(String browserName) {
         test_name = "Open shopping cart page";

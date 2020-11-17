@@ -25,6 +25,10 @@ public class RadioButton extends Element {
         element.click();
         return this;
     }
+    public RadioButton select(String value) {
+        element.selectRadio(value);
+        return this;
+    }
 
     public RadioButton setXpath(String xpath) {
         this.xpath = xpath;

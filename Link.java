@@ -1,4 +1,4 @@
-package browser;
+package mobile;
 
 import com.codeborne.selenide.SelenideDriver;
 
@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class Link extends Element{
+public class Link extends Element {
     public Link(SelenideDriver driver) {
 
         super(driver);
@@ -43,10 +43,6 @@ public class Link extends Element{
     public Link chkVisible() {
         element.shouldBe(visible);
         return this;
-    }
-
-    public boolean isVisible() {
-        return element.isDisplayed();
     }
 
     public Link chkText(String text) {

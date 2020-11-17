@@ -1,8 +1,7 @@
-package browser;
+package mobile;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideDriver;
-import io.appium.java_client.ios.IOSDriver;
 
 import java.io.File;
 
@@ -10,9 +9,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class Input extends Element{
+public class Input extends Element {
     public Input(SelenideDriver driver) {
         super(driver);
     }

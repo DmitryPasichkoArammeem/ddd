@@ -2,55 +2,49 @@ package browser;
 
 import com.codeborne.selenide.SelenideDriver;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class Link extends Element{
-    public Link(SelenideDriver driver) {
-
+public class DropDown extends Element {
+    public DropDown(SelenideDriver driver) {
         super(driver);
     }
-    public Link() {
 
+    public DropDown() {
         super();
     }
 
 
-    public Link chkEnabled() {
+    public DropDown chkEnabled() {
         element.shouldBe(visible);
         return this;
     }
 
-    public Link click() {
+    public DropDown click() {
         element.click();
         return this;
     }
 
-    public Link setXpath(String xpath) {
+    public DropDown setXpath(String xpath) {
         this.xpath = xpath;
         this.element = $x(this.xpath);
         return this;
     }
 
-    public Link setCSS(String xpath) {
-        this.xpath = xpath;
+    public DropDown setCSS(String cssSelector) {
+        this.xpath = cssSelector;
         this.element = $(this.xpath);
         return this;
     }
 
-    public Link chkVisible() {
+    public DropDown chkVisible() {
         element.shouldBe(visible);
         return this;
     }
 
-    public boolean isVisible() {
-        return element.isDisplayed();
-    }
-
-    public Link chkText(String text) {
-        element.shouldHave(text(text));
+    public DropDown selectValue(String value) {
+        element.selectOptionContainingText(value);
         return this;
     }
 }
