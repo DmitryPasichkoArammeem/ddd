@@ -1,4 +1,4 @@
-package mobile;
+package core;
 
 import browser.*;
 import com.codeborne.selenide.Configuration;
@@ -25,9 +25,8 @@ public abstract class MobileBaseTest {
     public static final TestProperties tstProp = ConfigFactory.create(TestProperties.class);
     public static WebDriver driver;
 
-    private static final String USERNAME = "dmitrypasichko2";
-    private static final String AUTOMATE_KEY = "yk6Hzj2F4AC6Z8QeVMuL";
-    private static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
+    private static final String URL = "https://" + tstProp.browserstackUser() + ":" + tstProp.browserstackKey() + "@hub-cloud.browserstack.com/wd/hub";
+
 
     protected browser.Link link = new Link();
     protected browser.Label label = new Label();
@@ -48,8 +47,11 @@ public abstract class MobileBaseTest {
     public static void setVisibility(String cssSelector) {
         sleep(2000);
         getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.visibility='visible'");
-        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.width='1px'");
-        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.height='1px'");
+        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.width='10px'");
+        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.height='10px'");
+//        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.top='10px'");
+//        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.left='10px'");
+//        getSelenideDriver().executeJavaScript("document.querySelector('" + cssSelector + "').style.position='absolute'");
     }
 
     public static long getTime() {
@@ -79,7 +81,7 @@ public abstract class MobileBaseTest {
 
         caps.setCapability("browserName", platform);
         caps.setCapability("realMobile", "true");
-//        caps.setCapability("webStorageEnabled", "true");
+        caps.setCapability("webStorageEnabled", "true");
         caps.setCapability("nativeWebTap",true);
         caps.setCapability("name", "Best value print " + platform + " mobile testing");
 

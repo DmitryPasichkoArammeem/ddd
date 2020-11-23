@@ -2,20 +2,21 @@ package browser;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideDriver;
-import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.interactions.Actions;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class Input extends Element{
+public class Input extends Element {
     public Input(SelenideDriver driver) {
         super(driver);
     }
+
     public Input() {
         super();
     }
@@ -59,7 +60,27 @@ public class Input extends Element{
     }
 
     public Input uploadFile(File value) {
-        element.uploadFile(value);
+        try {
+            element.shouldBe(visible).uploadFile(value);
+        } catch (Exception | Error e) {
+
+            System.out.println("--------------------------------------");
+            System.out.println(e.getClass().getName());
+            System.out.println(e.getMessage());
+            System.out.println(element.getSize().height);
+            System.out.println(element.getSize().width);
+            System.out.println(element.isDisplayed());
+            System.out.println(value.getAbsolutePath());
+            System.out.println("--------------------------------------");
+            e.printStackTrace();
+            throw new RuntimeException("File not loaded");
+
+        }
+        return this;
+    }
+    public Input uploadFileJs(File value) {
+        JavascriptExecutor executor = (JavascriptExecutor)getWebDriver();
+        executor.executeScript("arguments[0].value='"+value.getPath()+"';",element);
         return this;
     }
 

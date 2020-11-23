@@ -37,5 +37,11 @@ public interface TestProperties extends Config {
     @Key("listenerName")
     String listenerName();
 
+    @Key("browserstackUser")
+    String browserstackUser();
+
+    @Key("browserstackKey")
+    String browserstackKey();
+
 }
 

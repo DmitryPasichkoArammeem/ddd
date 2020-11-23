@@ -1,11 +1,14 @@
 package browser;
 
 import com.codeborne.selenide.SelenideDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.interactions.Actions;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class Link extends Element{
     public Link(SelenideDriver driver) {
@@ -42,6 +45,11 @@ public class Link extends Element{
 
     public Link chkVisible() {
         element.shouldBe(visible);
+        return this;
+    }
+
+    public Link moveToElement() {
+        ((JavascriptExecutor) getWebDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
         return this;
     }
 
