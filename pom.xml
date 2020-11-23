@@ -112,8 +112,13 @@
             <artifactId>webdrivermanager</artifactId>
             <version>3.8.1</version>
             <scope>compile</scope>
-        </dependency>
 
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>

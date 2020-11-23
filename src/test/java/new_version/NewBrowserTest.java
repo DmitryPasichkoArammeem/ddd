@@ -4,45 +4,48 @@ import core.BaseTest;
 import org.openqa.selenium.JavascriptException;
 import org.testng.annotations.*;
 
+import java.util.HashMap;
+
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static core.TestStepLogger.logStep;
 
 public class NewBrowserTest extends BaseTest {
     String mainUrl = "https://bvcm2.nextmp.net/";
 
-    String bookingLnkXpath ="//*[@id='ui-id-3']";
-    String productNameH1Xpath ="//*[@data-ui-id='page-title-wrapper']";
+    String bookingLnkXpath = "//*[@id='ui-id-3']";
+    String productNameH1Xpath = "//*[@data-ui-id='page-title-wrapper']";
 
 
     @DataProvider(name = "browsers")
     public static Object[][] primeNumbers() {
-        return new Object[][]{{"chrome"}, {"firefox"},{"IE"},{"safari"}};
+        return new Object[][]{{"chrome"}, {"firefox"}, {"IE"}, {"safari"}};
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
+        result = new HashMap<>();
+        result.put("version","New version");
+        result.put("url",mainUrl);
         start = end = -1;
-        start = getTime();
     }
 
     @Test(dataProvider = "browsers")
     public void mainPageLoadingTest(String browserName) {
-        test_name = "Open main page";
-        open_page(mainUrl, browserName);
+        result.put("device",browserName);result.put("desk","Open main page");
+        start = open_page(mainUrl, browserName);
     }
 
     @Test(dataProvider = "browsers")
     public void detailsPageLoadingTest(String browserName) {
-        test_name = "Open product details page";
-        open_page(mainUrl, browserName);
+        result.put("device",browserName);result.put("desk","Open product details page");
+        start = open_page(mainUrl, browserName);
         link.setXpath(bookingLnkXpath).chkVisible().click();//click on Booklets link
         label.setXpath(productNameH1Xpath).chkVisible().chkText("BOOKLET PRINTING");//check that we on the required page
     }
 
     @Test(dataProvider = "browsers")
     public void aboutPageLoadingTest(String browserName) {
-        test_name = "Open about page";
-        open_page(mainUrl, browserName);
+        result.put("device",browserName);result.put("desk","Open about page");
+        start = open_page(mainUrl, browserName);
         link.setCSS("#sm_megamenu_117").chkVisible().click();//click on Booklets link
         label.setXpath("//*[@data-ui-id='page-title-wrapper']").chkVisible().chkText("ABOUT US");//check that we on the required page
     }
@@ -51,12 +54,13 @@ public class NewBrowserTest extends BaseTest {
     public void down() {
         try {
             waitPageLoading();
-        }catch (JavascriptException e){
+        } catch (JavascriptException e) {
             System.out.println("sad(");
         }
 
         end = getTime();
-        System.out.println(printReport(end, start, test_name));
+        result.put("time",""+convertToSeconds(end - start));
+        results.add(result);
         getWebDriver().close();
     }
 }
