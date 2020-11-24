@@ -103,14 +103,14 @@ public abstract class BaseTest {
         caps.setCapability("browserstack.local", "false");
         caps.setCapability("name", "Best value print " + platform + " mobile testing");
         switch (platform) {
-            case "chrome":
+            case "google_chrome":
                 caps.setCapability("os", "Windows");
                 caps.setCapability("os_version", "10");
                 caps.setCapability("browser", "Chrome");
                 caps.setCapability("browser_version", "latest");
                 caps.setCapability("browserstack.selenium_version", "3.14.0");
                 break;
-            case "firefox":
+            case "mozilla_firefox":
                 caps.setCapability("os", "Windows");
                 caps.setCapability("os_version", "10");
                 caps.setCapability("browser", "Firefox");
@@ -124,7 +124,7 @@ public abstract class BaseTest {
                 caps.setCapability("browser_version", "13.0");
                 caps.setCapability("browserstack.selenium_version", "3.14.0");
                 break;
-            case "IE":
+            case "internet_explorer":
                 caps.setCapability("os", "Windows");
                 caps.setCapability("os_version", "10");
                 caps.setCapability("browser", "IE");

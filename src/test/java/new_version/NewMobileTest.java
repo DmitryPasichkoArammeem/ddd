@@ -21,7 +21,7 @@ public class NewMobileTest extends BaseTest {
     @DataProvider(name = "browsers")
     public static Object[][] primeNumbers() {
         return new Object[][]{
-//                {"android"},
+                {"android"},
                 {"iPhone"}};
     }
 

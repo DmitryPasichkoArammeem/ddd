@@ -20,35 +20,38 @@ public class OldBrowserTest extends BaseTest {
 
     @DataProvider(name = "browsers")
     public static Object[][] primeNumbers() {
-        return new Object[][]{{"chrome"}, {"firefox"}, {"IE"}, {"safari"}};
+        return new Object[][]{{"google_chrome"}, {"mozilla_firefox"}, {"internet_explorer"}, {"safari"}};
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
         result = new HashMap<>();
-        result.put("version","Old version");
-        result.put("url",mainUrl);
+        result.put("version", "Old version");
+        result.put("url", mainUrl);
         start = end = -1;
     }
 
     @Test(dataProvider = "browsers")
     public void mainPageLoadingTest(String browserName) {
-        result.put("device",browserName);result.put("desk","Open main page");
+        result.put("device", browserName);
+        result.put("desk", "Open main page");
         start = open_page(mainUrl, browserName);
     }
 
     @Test(dataProvider = "browsers")
     public void detailsPageLoadingTest(String browserName) {
-        result.put("device",browserName);result.put("desk","Open product details page");
-        start =  open_page(mainUrl, browserName);
+        result.put("device", browserName);
+        result.put("desk", "Open product details page");
+        start = open_page(mainUrl, browserName);
         link.setXpath(bookingLnkXpath).chkVisible().click();//click on Booklets link
         label.setCSS(productNameH1Xpath).chkVisible().chkText("Booklet Printing");//check that we on the required page
     }
 
     @Test(dataProvider = "browsers")
     public void aboutPageLoadingTest(String browserName) {
-        result.put("device",browserName);result.put("desk","Open about page");
-        start =  open_page(mainUrl, browserName);
+        result.put("device", browserName);
+        result.put("desk", "Open about page");
+        start = open_page(mainUrl, browserName);
         link.setXpath("//ul//a[contains(@href,'/about-us')]").chkVisible().click();//click on Booklets link
         label.setCSS(".title.title2").chkVisible().chkText("About Us");//check that we on the required page
     }
@@ -62,7 +65,7 @@ public class OldBrowserTest extends BaseTest {
         }
 
         end = getTime();
-        result.put("time",""+convertToSeconds(end - start));
+        result.put("time", "" + convertToSeconds(end - start));
         old_results.add(result);
         getWebDriver().close();
     }
